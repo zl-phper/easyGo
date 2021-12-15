@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"net/http"
 	server2 "selfgo/server"
 )
 
@@ -54,8 +55,11 @@ func signUp(ctx *server2.Context) {
 func main() {
 	server := server2.NewHttpServer("test-server")
 
-	server.Route("/name", handler)
-	server.Route("/url/query", queryParams)
-	server.Route("/signup", signUp)
-	server.Start(":8080")
+	server.Route(http.MethodGet,"/signup", signUp)
+
+	err := server.Start(":8080")
+
+	if err != nil {
+		panic("error")
+	}
 }
