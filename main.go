@@ -53,10 +53,12 @@ func signUp(ctx *server2.Context) {
 }
 
 func main() {
-	server := server2.NewHttpServer("test-server")
+	server := server2.NewHttpServer("test-server",server2.MetricsFilterBuilder)
 
 	server.Route(http.MethodGet,"/signup", signUp)
 
+	 test := server2.HandlerBaseOnMap{}
+	 fmt.Printf("%v",test)
 	err := server.Start(":8080")
 
 	if err != nil {

@@ -1,13 +1,12 @@
 package server
 
-import "C"
 import (
 	"net/http"
 )
 
 type Handler interface {
 	ServerHTTP(c *Context)
-	Route(method string, path string, handleFunc func(ctx *Context))
+	Route(method string, path string, handleFunc handleFunc)
 }
 
 type HandlerBaseOnMap struct {
@@ -33,7 +32,7 @@ func (h *HandlerBaseOnMap) key(method string, pattern string) string {
 	return method  + "#" + pattern
 }
 
-func (s *HandlerBaseOnMap) Route(method string, pattern string, handleFunc func(ctx *Context)) {
+func (s *HandlerBaseOnMap) Route(method string, pattern string, handleFunc handleFunc) {
 	key := s.key(method, pattern)
 	 
 	s.handlers[key] = handleFunc

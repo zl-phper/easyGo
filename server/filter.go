@@ -5,9 +5,13 @@ import (
 	"time"
 )
 
+type handleFunc func(c *Context)
+
 type FilterBuilder func(next Filter) Filter
 
 type Filter func(c *Context)
+
+var  _ FilterBuilder = MetricsFilterBuilder
 
 func MetricsFilterBuilder(next Filter) Filter {
 	return func(c *Context) {
