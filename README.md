@@ -1,2 +1,2 @@
 # easyGo
-goland 学习 一个简单的web 框架
+go 学习 一个简单的web 框架
