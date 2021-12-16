@@ -27,13 +27,11 @@ func (s *sdkHttpServer) Route(method string, pattern string, handleFunc func(ctx
 
 func (s *sdkHttpServer) Start(address string) error {
 
-	//http.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
-	//
-	//	c := NewContext(writer, request)
-	//	s.root(c)
-	//})
+	http.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
 
-	http.Handle("/1", s.handler)
+		c := NewContext(writer, request)
+		s.root(c)
+	})
 
 	return http.ListenAndServe(address, nil)
 }
@@ -45,9 +43,8 @@ func (s *sdkHttpServer) Md5() string {
 func NewHttpServer(name string, builders ...FilterBuilder) Server {
 
 	handler := NewHandlerBasedOnMap()
-	var root Filter = func(c *Context) {
-		handler.ServeHTTP(c.W, c.R)
-	}
+	var root Filter = handler.ServerHTTP
+
 
 	for i := len(builders) - 1; i >= 0; i-- {
 		b := builders[i]

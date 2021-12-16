@@ -1,9 +1,12 @@
 package server
 
-import "net/http"
+import "C"
+import (
+	"net/http"
+)
 
 type Handler interface {
-	http.Handler
+	ServerHTTP(c *Context)
 	Route(method string, path string, handleFunc func(ctx *Context))
 }
 
@@ -13,24 +16,26 @@ type HandlerBaseOnMap struct {
 	handlers map[string]func(ctx *Context)
 }
 
-func (h *HandlerBaseOnMap) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
+func (h *HandlerBaseOnMap) ServerHTTP(c *Context) {
 
-	key := h.key(request.Method, request.URL.Path)
+	key := h.key(c.R.Method, c.R.URL.Path)
+
 	if handler, ok := h.handlers[key]; ok {
-		handler(NewContext(writer, request))
+		handler(c)
 	} else {
-		writer.WriteHeader(http.StatusNotFound)
-		writer.Write([]byte("not found"))
+		c.W.WriteHeader(http.StatusNotFound)
+		c.W.Write([]byte("not found"))
 	}
 
 }
 
 func (h *HandlerBaseOnMap) key(method string, pattern string) string {
-	return method + "#" + pattern
+	return method  + "#" + pattern
 }
 
 func (s *HandlerBaseOnMap) Route(method string, pattern string, handleFunc func(ctx *Context)) {
 	key := s.key(method, pattern)
+	 
 	s.handlers[key] = handleFunc
 }
 
