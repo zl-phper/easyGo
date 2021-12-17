@@ -53,7 +53,7 @@ func NewHttpServer(name string, builders ...FilterBuilder) Server {
 
 	return &sdkHttpServer{
 		Name:    name,
-		handler: NewHandlerBasedOnMap(),
+		handler: handler,
 		root:    root,
 	}
 }

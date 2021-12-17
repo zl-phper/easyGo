@@ -12,18 +12,18 @@ type Handler interface {
 type HandlerBaseOnMap struct {
 
 	// key 应该method + url
-	handlers map[string]func(ctx *Context)
+	Handlers map[string]func(ctx *Context)
 }
 
 func (h *HandlerBaseOnMap) ServerHTTP(c *Context) {
 
 	key := h.key(c.R.Method, c.R.URL.Path)
 
-	if handler, ok := h.handlers[key]; ok {
+	if handler, ok := h.Handlers[key]; ok {
 		handler(c)
 	} else {
 		c.W.WriteHeader(http.StatusNotFound)
-		c.W.Write([]byte("not found"))
+		c.W.Write([]byte("404"))
 	}
 
 }
@@ -34,12 +34,13 @@ func (h *HandlerBaseOnMap) key(method string, pattern string) string {
 
 func (s *HandlerBaseOnMap) Route(method string, pattern string, handleFunc handleFunc) {
 	key := s.key(method, pattern)
-	 
-	s.handlers[key] = handleFunc
+
+	s.Handlers[key] = handleFunc
+
 }
 
 func NewHandlerBasedOnMap() Handler {
 	return &HandlerBaseOnMap{
-		handlers: make(map[string]func(ctx *Context)),
+		Handlers: make(map[string]func(ctx *Context)),
 	}
 }

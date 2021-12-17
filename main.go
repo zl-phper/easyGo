@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	server2 "selfgo/server"
+	"time"
 )
 
 type SignUpReq struct {
@@ -52,13 +53,21 @@ func signUp(ctx *server2.Context) {
 
 }
 
+func GoRoutine() {
+
+	go func() {
+		time.Sleep(10 * time.Second)
+	}()
+	fmt.Println("i am here")
+}
+
 func main() {
-	server := server2.NewHttpServer("test-server",server2.MetricsFilterBuilder)
 
-	server.Route(http.MethodGet,"/signup", signUp)
+	server := server2.NewHttpServer("test-server", server2.MetricsFilterBuilder)
 
-	 test := server2.HandlerBaseOnMap{}
-	 fmt.Printf("%v",test)
+	server.Route(http.MethodGet, "/signup", signUp)
+
+
 	err := server.Start(":8080")
 
 	if err != nil {
