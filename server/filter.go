@@ -14,6 +14,7 @@ type Filter func(c *Context)
 var  _ FilterBuilder = MetricsFilterBuilder
 
 func MetricsFilterBuilder(next Filter) Filter {
+
 	return func(c *Context) {
 
 		start := time.Now().Nanosecond()
@@ -22,6 +23,19 @@ func MetricsFilterBuilder(next Filter) Filter {
 
 		end := time.Now().Nanosecond()
 
-		fmt.Printf("用了 %d 纳秒", start-end)
+		fmt.Printf("用了 %d 纳秒", end - start)
+	}
+}
+func MetricsFilterBuilder2(next Filter) Filter {
+
+	return func(c *Context) {
+
+		start := time.Now().Nanosecond()
+
+		next(c)
+
+		end := time.Now().Nanosecond()
+
+		fmt.Printf("用了 %d 纳秒", end - start)
 	}
 }

@@ -63,7 +63,7 @@ func GoRoutine() {
 
 func main() {
 
-	server := server2.NewHttpServer("test-server", server2.MetricsFilterBuilder)
+	server := server2.NewHttpServer("test-server", server2.MetricsFilterBuilder,server2.MetricsFilterBuilder2)
 
 	server.Route(http.MethodGet, "/signup", signUp)
 

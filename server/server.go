@@ -48,6 +48,7 @@ func NewHttpServer(name string, builders ...FilterBuilder) Server {
 
 	for i := len(builders) - 1; i >= 0; i-- {
 		b := builders[i]
+
 		root = b(root)
 	}
 
