@@ -72,6 +72,7 @@ func (n *HandlerBasedOnTree) Route(method string, pattern string, handleFunc han
 			return nil
 		}
 	}
+	return nil
 }
 
 func (h *HandlerBasedOnTree) createSubTree(root *node, paths []string, handleFunc handleFunc) {
