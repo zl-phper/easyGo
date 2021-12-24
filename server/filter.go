@@ -30,12 +30,13 @@ func MetricsFilterBuilder2(next Filter) Filter {
 
 	return func(c *Context) {
 
-		start := time.Now().Nanosecond()
+		go func() {
+		 	time.Sleep(time.Second * 10)
 
-		next(c)
+ 			fmt.Printf("这里执行了异步请求")
+		}()
 
-		end := time.Now().Nanosecond()
 
-		fmt.Printf("用了 %d 纳秒", end - start)
+
 	}
 }

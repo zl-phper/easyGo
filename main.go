@@ -67,10 +67,8 @@ func main() {
 
 	server.Route(http.MethodGet, "/signup", signUp)
 
-
-	err := server.Start(":8080")
-
-	if err != nil {
-		panic("error")
-	}
+ 	server.Start(":8080")
 }
+
+
+
